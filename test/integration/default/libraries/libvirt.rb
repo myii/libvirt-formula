@@ -16,6 +16,7 @@ class LibvirtResource < Inspec.resource(1)
 
   def initialize
     @param = get_config_parameters
+    @packages = get_packages
   end
 
   def service_name
@@ -69,6 +70,45 @@ class LibvirtResource < Inspec.resource(1)
       'auth_unix_rw' => 'none',
       'auth_tcp' => 'none',
     }
+  end
+
+  def packages
+    return @packages
+  end
+
+  def get_packages
+    # defaults.yaml
+    packages = {
+      'libvirt' => ['libvirt'],
+      'qemu' => ['qemu'],
+      'python' => ['libvirt-python'],
+      'extra' => [],
+    }
+
+    # osmap.yaml
+    case inspec.os[:family]
+    when 'debian'
+      packages['libvirt'] = ['libvirt-daemon-system']
+      packages['qemu'] = ['qemu-kvm']
+      packages['python'] = ['python-libvirt']
+      packages['extra'] = ['libguestfs0', 'libguestfs-tools', 'gnutls-bin', 'virt-top']
+    when 'fedora', 'redhat', 'suse'
+      packages['qemu'] = ['qemu-kvm']
+      packages['extra'] = ['libguestfs']
+    end
+
+    # codenamemap.yaml
+    if inspec.os[:name] == 'debian' and inspec.os[:release] < '8'
+      packages['libvirt'] = ['libvirt-bin']
+    elsif inspec.os[:name] == 'ubuntu' and inspec.os[:release] <= '16.04'
+      packages['libvirt'] = ['libvirt-bin']
+    end
+
+    if inspec.python.is_python3?
+      packages['python'] = [ packages['python'][0].sub(/python/, 'python3') ]
+    end
+
+    return packages
   end
 
 end
