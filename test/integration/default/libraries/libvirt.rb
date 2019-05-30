@@ -14,6 +14,10 @@ class LibvirtResource < Inspec.resource(1)
   supports platform_name: 'opensuse'
   supports platform_name: 'suse'
 
+  def initialize
+    @param = get_config_parameters
+  end
+
   def service_name
     if inspec.os[:name] == 'ubuntu' and inspec.os[:release] < '18.04'
     then
@@ -45,6 +49,26 @@ class LibvirtResource < Inspec.resource(1)
 
   def daemon_config_file
     return inspec.file(File.join(daemon_config_dir, service_name))
+  end
+
+  def config
+    return @param
+  end
+
+  def get_config_parameters
+    return {
+      'listen_tls' => '0',
+      'listen_tcp' => '0',
+      'tls_port' => '16514',
+      'tcp_port' => '16509',
+      'listen_addr' => '0.0.0.0',
+      'unix_sock_group' => 'root',
+      'unix_sock_ro_perms' => '0777',
+      'unix_sock_rw_perms' => '0770',
+      'auth_unix_ro' => 'none',
+      'auth_unix_rw' => 'none',
+      'auth_tcp' => 'none',
+    }
   end
 
 end
