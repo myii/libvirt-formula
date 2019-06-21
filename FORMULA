@@ -1,0 +1,8 @@
+name: libvirt
+os: Debian, CentOS
+version: x.x.x
+release: 1
+minimum_version: 2018.3
+summary: libvirt formula
+description: Formula to setup and configure libvirt
+top_level_dir: libvirt
