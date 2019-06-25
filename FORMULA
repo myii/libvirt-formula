@@ -1,6 +1,6 @@
 name: libvirt
 os: Debian, CentOS
-version: x.x.x
+version: 1.6.1
 release: 1
 minimum_version: 2018.3
 summary: libvirt formula
