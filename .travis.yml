@@ -49,8 +49,8 @@ jobs:
       node_js: lts/*
       before_install: skip
       script:
-        - npm install @commitlint/config-conventional -D
-        - npm install @commitlint/travis-cli -D
+        - npm install @commitlint/config-conventional@8 -D
+        - npm install @commitlint/travis-cli@8 -D
         - commitlint-travis
     # Define the release stage that runs semantic-release
     - stage: release
