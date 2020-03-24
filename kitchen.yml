@@ -163,7 +163,8 @@ suites:
       state_top:
         base:
           '*':
-            - libvirt
+            - libvirt.yaml_dump
+            # - libvirt
       pillars:
         top.sls:
           base:
@@ -181,8 +182,9 @@ suites:
       state_top:
         base:
           '*':
-            - libvirt
-            - libvirt.clean
+            - libvirt.yaml_dump
+            # - libvirt
+            # - libvirt.clean
       pillars:
         top.sls:
           base:
